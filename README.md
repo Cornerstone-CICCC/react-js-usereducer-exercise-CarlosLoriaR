@@ -1,30 +1,73 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Roi3Gxe9)
-# React JS - useReducer Exercise
+# React + TypeScript + Vite
 
-**Goal:** To understand and use the `useReducer` hook properly.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Instructions
+Currently, two official plugins are available:
 
-1. Create a new React project by running `npm create vite@latest reducer-exercise`.
-2. Create one reducer that holds 2 properties: `isDark` and `fSize`.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-    ```ts
-    {
-      isDark: boolean,
-      fSize: number
-    }
-    ```
+## React Compiler
 
-3. In your `App.tsx`, wrap your App component in a `div`, add some dummy text, and create three buttons:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-    ```html
-    <button>Toggle Dark Mode</button>
-    <button>Increase Font Size</button>
-    <button>Decrease Font Size</button>
-    ```
+## Expanding the ESLint configuration
 
-4. Clicking on the toggle button will toggle the background of the `div` to black and text color to white if it `isDark` is true. Just use inline styling or **Tailwind CSS** to change the colors.
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-5. Clicking the font size buttons will increase or decrease the font size by 1px of the texts inside the `div`. Just use `16` as the default size for your reducer state. You can use inline styling or **Tailwind CSS** to change the font sizes.
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-6. Commit and push your changes.
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
+
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
+
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
